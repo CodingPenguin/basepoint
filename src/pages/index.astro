@@ -1,11 +1,563 @@
----
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/public/favicon.ico">
+	<link rel="manifest" href="/site.webmanifest">
+    <title>Basepoint | Workspace Finder for Remote Workers & Digital Nomads</title>
+    <style>
+        :root {
+            --primary: #0BB5B2;
+            --primary-dark: #099592;
+            --primary-light: #E6FFFE;
+            --dark: #1E293B;
+            --light: #F8FAFC;
+            --gray: #64748B;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(11, 181, 178, 0.4);
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .hero {
+            padding: 160px 0 100px;
+            background: linear-gradient(120deg, #E6FFFE 0%, #F0FFFF 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+        
+        .hero-text {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center; /* Centers content horizontally */
+			text-align: center; /* Ensures text alignment matches */
+		}
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
----
+        
+        /* .hero-image {
+            flex: 1;
+            position: relative;
+        } */
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: var(--gray);
+        }
+        
+        .highlight-on-light {
+            color: var(--primary);
+        }
+        
+		.highlight-on-dark {
+			color: #A6FFF2; /* Warm golden highlight */
+		}
 
-<Layout>
-	<Welcome />
-</Layout>
+        .app-screenshot {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .features {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(11, 181, 178, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        .ai-search {
+            padding: 100px 0;
+    		background-color: #0A8A87; /* Deeper, more refined teal */
+            color: white;
+        }
+        
+        .ai-search-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+        
+        .ai-search-text {
+            flex: 1;
+        }
+        
+        .ai-search-demo {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .search-input {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            color: white;
+            width: 100%;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .ai-results {
+			background-color: rgba(255, 255, 255, 0.12); /* Slightly brighter */
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .result-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .waitlist {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .waitlist-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .waitlist-form {
+            margin-top: 3rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            text-align: left;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(11, 181, 178, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .form-submit:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(11, 181, 178, 0.4);
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 992px) {
+            .hero-content, .ai-search-content {
+                flex-direction: column;
+                gap: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span>Basepoint</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#ai-search">AI Search</a></li>
+                    </ul>
+                </nav>
+                <a href="#waitlist" class="btn">Get Early Access</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Find Your Perfect <span class="highlight-on-light">Workspace</span> Anywhere</h1>
+                    <p>Not all workspaces are built the same. Basepoint helps remote workers and digital nomads find the best cafés, co-working spaces, and quiet spots so you always know where to get things done.</p>
+					<a href="#waitlist" class="btn">Join the Waitlist</a>
+                </div>
+                <!-- <div class="hero-image">
+                    <img src="/api/placeholder/600/400" alt="Basepoint App Screenshot" class="app-screenshot" />
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Workspace Details That <span class="highlight-on-light">Actually Matter</span></h2>
+                <p>Unlike generic review sites, we focus exclusively on what remote workers need to stay productive.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📡</div>
+                    <h3>WiFi Speed</h3>
+                    <p>Real upload/download speeds tested by our community, not vague "good wifi" claims.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔊</div>
+                    <h3>Noise Levels</h3>
+                    <p>Find spaces that match your focus needs, from pin-drop quiet to lively ambiance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Vibes & Crowdedness</h3>
+                    <p>Know the atmosphere and typical occupancy before you arrive.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Cost Transparency</h3>
+                    <p>Coffee prices, minimum spends, and co-working fees clearly displayed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Search Section -->
+    <section id="ai-search" class="ai-search">
+        <div class="container">
+            <div class="ai-search-content">
+                <div class="ai-search-text">
+                    <h2>Discover the Best Workspaces <span class="highlight-on-dark">Powered by AI Search</span></h2>
+                    <p>Just describe what you're looking for in plain language, and we'll find the perfect spot.</p>
+                    <p>Ask for "a quiet café in Tokyo with strong WiFi and power outlets" or "affordable co-working space in Lisbon with meeting rooms" — our AI understands exactly what you need.</p>
+                </div>
+                <div class="ai-search-demo">
+                    <input type="text" class="search-input" value="Find a quiet café in Tokyo with strong WiFi" placeholder="Describe your ideal workspace..." disabled>
+                    <div class="ai-results">
+                        <div class="result-item">
+                            <div class="result-name">Switch Coffee Tokyo</div>
+                            <div class="result-meta">
+                                <span>⚡ 95Mbps</span>
+                                <span>🔊 Very Quiet</span>
+                                <span>💰 ¥500+</span>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-name">Lattest Omotesando</div>
+                            <div class="result-meta">
+                                <span>⚡ 78Mbps</span>
+                                <span>🔊 Quiet</span>
+                                <span>💰 ¥650+</span>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-name">Fuglen Tokyo</div>
+                            <div class="result-meta">
+                                <span>⚡ 85Mbps</span>
+                                <span>🔊 Quiet</span>
+                                <span>💰 ¥550+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waitlist Section -->
+    <section id="waitlist" class="waitlist">
+        <div class="container">
+            <div class="waitlist-content">
+                <h2>Join The <span class="highlight-on-light">Waitlist</span></h2>
+                <p>Be among the first to access Basepoint when we launch. Sign up now for early access.</p>
+                
+                <div class="waitlist-form">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="Your email address">
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Where do you work remotely?</label>
+                            <input type="text" id="location" class="form-control" placeholder="City, country, or 'nomadic'">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">What would you like to see in Basepoint?</label>
+                            <textarea id="message" class="form-control" placeholder="Tell us what features matter most to you"></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">Join Waitlist</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    © 2025 Basepoint. Building the future of remote work.
+                </div>
+            </div>
+        </div>
+    </footer>
+	<script>
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function(e) {
+				e.preventDefault();
+				const target = document.querySelector(this.getAttribute('href'));
+				if (target) {
+					window.scrollTo({
+						top: target.offsetTop - 80, // Adjust to avoid header overlap
+						behavior: 'smooth'
+					});
+				}
+			});
+		});
+	</script>
+</body>
+</html>
