@@ -40,6 +40,14 @@
             line-height: 1.6;
         }
         
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:active {
+            color: inherit;
+        }
         .container {
             max-width: 90%;
             margin: 0 auto;
@@ -97,6 +105,17 @@
             text-decoration: none;
             transition: all 0.2s;
         }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            #waitlist, .btn {
+                display: none;
+            }
+        }
         
         .btn:hover {
             transform: translateY(-2px);
@@ -124,6 +143,7 @@
         
         .hero-content {
             display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 4rem;
         }
@@ -142,6 +162,72 @@
             position: relative;
         } */
         
+        /* Carousel Container */
+        .carousel {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Carousel Track (Holds Cards) */
+        .carousel-track {
+            display: flex;
+            gap: 20px; /* Space between cards */
+            width: max-content;
+            animation: infiniteScroll 30s linear infinite;
+        }
+
+        /* Individual City Cards */
+        .city-card {
+            width: 280px; /* Adjust card width */
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            height: 200px; /* Fixed height to match images */
+        }
+
+        /* City Images */
+        .city-card img {
+            width: 100%;
+            height: 200px; /* Adjust height */
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Overlay Text */
+        .city-info {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            color: var(--light);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .city-info h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        /* Infinite Scroll Effect */
+        @keyframes infiniteScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-280px * 4 - 20px * 4)); } /* Moves back exactly the width of the cloned set */
+        }
+
+        /* For better mobile experience */
+        @media (max-width: 768px) {
+            .city-card {
+                width: 220px;
+            }
+            
+            @keyframes infiniteScroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(calc(-220px * 4 - 20px * 4)); }
+            }
+        }
+
         .hero h1 {
             font-size: 3.5rem;
             font-weight: 800;
@@ -363,7 +449,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <span>Basepoint</span>
+                    <a href="#hero"><span>Basepoint</span></a>
                 </div>
                 <nav>
                     <ul>
@@ -377,7 +463,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="hero">
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
@@ -385,9 +471,66 @@
                     <p>Not all workspaces are built the same. Basepoint helps remote workers and digital nomads find the best cafés, co-working spaces, and quiet spots so you always know where to get things done.</p>
 					<a href="#waitlist" class="btn">Join the Waitlist</a>
                 </div>
-                <!-- <div class="hero-image">
-                    <img src="/api/placeholder/600/400" alt="Basepoint App Screenshot" class="app-screenshot" />
-                </div> -->
+                <div class="carousel">
+                    <div class="carousel-track">
+                        <div class="city-card">
+                            <img src="los-angeles.webp" alt="Los Angeles">
+                            <div class="city-info">
+                                <h2>Los Angeles</h2>
+                            </div>
+                        </div>
+                
+                        <div class="city-card">
+                            <img src="bali.webp" alt="Bali">
+                            <div class="city-info">
+                                <h2>Bali</h2>
+                            </div>
+                        </div>
+                
+                        <div class="city-card">
+                            <img src="bangkok.webp" alt="Bangkok">
+                            <div class="city-info">
+                                <h2>Bangkok</h2>
+                            </div>
+                        </div>
+                
+                        <div class="city-card">
+                            <img src="lisbon.webp" alt="Lisbon">
+                            <div class="city-info">
+                                <h2>Lisbon</h2>
+                            </div>
+                        </div>
+                
+                        <!-- Duplicate for smooth infinite scrolling -->
+                        <div class="city-card">
+                            <img src="los-angeles.webp" alt="Los Angeles">
+                            <div class="city-info">
+                                <h2>Los Angeles</h2>
+                            </div>
+                        </div>
+                
+                        <div class="city-card">
+                            <img src="bali.webp" alt="Bali">
+                            <div class="city-info">
+                                <h2>Bali</h2>
+                            </div>
+                        </div>
+                
+                        <div class="city-card">
+                            <img src="bangkok.webp" alt="Bangkok">
+                            <div class="city-info">
+                                <h2>Bangkok</h2>
+                            </div>
+                        </div>
+                
+                        <div class="city-card">
+                            <img src="lisbon.webp" alt="Lisbon">
+                            <div class="city-info">
+                                <h2>Lisbon</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </section>
